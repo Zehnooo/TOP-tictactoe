@@ -9,11 +9,11 @@ const gameboard = (function () {
         return { ok: true };
     }
 
-    const cellCheck = (index) => board[index];
+
     const boardView = () => board.slice();
     const clear = () => board.fill(null);
 
-    return {place, cellCheck, boardView, clear};
+    return {place, boardView, clear};
 })();
 
 const gameController = (function() {
@@ -49,6 +49,7 @@ const gameController = (function() {
     const placeMarker = (index) => {
         const check = gameboard.place(index, activePlayer.mark);
         if (!check.ok) return check;
+        checkWinner();
         switchActivePlayer();
         return {ok: true};
     }
@@ -65,6 +66,12 @@ const gameController = (function() {
 
     const checkWinner = () => {
         const board = gameboard.boardView();
+        for (let winCon of winCons) {
+            const [a, b, c] = winCon;
+            if (board[a] && board[a] === board[b] && board[a] === board[c]){
+                console.log("Winner!", players.mark, board);
+            }
+        }
         console.log(board);
     }
 
