@@ -40,25 +40,27 @@ const gameController = (function() {
         [0, 4, 8],
         [2, 4, 6]
     ]
+
     let activePlayer = players[Math.floor(Math.random() * 2)];
 
     const switchActivePlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    const placeMarker = (index) => {
+    const placeMarker = () => {
+        const index = Number(window.prompt("index 0-8"));
         const check = gameboard.place(index, activePlayer.mark);
         if (!check.ok) return check;
         checkWinner();
         switchActivePlayer();
         return {ok: true};
     }
-
+    /*
     const playRound = () => {
         const index = Number(window.prompt("index 0-8"));
         return placeMarker(index);
     };
-
+    */
     const status = () => ({
         board: gameboard.boardView(),
             activePlayer
@@ -69,12 +71,30 @@ const gameController = (function() {
         for (let winCon of winCons) {
             const [a, b, c] = winCon;
             if (board[a] && board[a] === board[b] && board[a] === board[c]){
-                console.log("Winner!", players.mark, board);
+                console.log("Winner!", activePlayer, board);
             }
         }
         console.log(board);
     }
 
-    return { switchActivePlayer, playRound, placeMarker, status };
+    const resetGame = () => {
+        gameboard.clear();
+    }
+
+    return { switchActivePlayer, /* playRound, */ placeMarker, status };
+})();
+
+const initDom = (function() {
+
+    const buildGrid = () => {
+        const board = document.querySelector("#board");
+        for (let i = 0; i < 9; i++){
+            const div = document.createElement("div");
+            div.textContent = "-";
+            board.append(div);
+        }
+    }
+    buildGrid();
+    return {buildGrid};
 })();
 console.log(gameController.status());
