@@ -40,7 +40,7 @@ const gameController = (function() {
         [0, 4, 8],
         [2, 4, 6]
     ]
-    let activePlayer = players[0];
+    let activePlayer = players[Math.floor(Math.random() * 2)];
 
     const switchActivePlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
