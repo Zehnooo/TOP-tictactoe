@@ -88,10 +88,12 @@ const initDom = (function() {
 
     const buildGrid = () => {
         const board = document.querySelector("#board");
+
         for (let i = 0; i < 9; i++){
             const div = document.createElement("div");
             div.textContent = "-";
             board.append(div);
+            div.addEventListener("click", gameController.placeMarker);
         }
     }
     buildGrid();
