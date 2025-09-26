@@ -2,10 +2,9 @@
 const gameboard = (function () {
     const board = Array(9).fill(null);
 
-    const place = (index, mark) => {
-        if (index < 0 || index > 8) return { ok: false, reason: "Out of Range"};
-        if (board[index] != null) return {ok: false, reason: "Space occupied"};
-        board[index] = mark;
+    const place = (tileNum, mark) => {
+        if (board[tileNum] != null) return {ok: false, reason: "Space occupied"};
+        board[tileNum] = mark;
         return { ok: true };
     }
 
@@ -53,16 +52,22 @@ const gameController = (function() {
             console.warn(check.reason);
             return check
         }
+        updateTile(tileNum, activePlayer.mark);
         checkWinner();
         switchActivePlayer();
         return {ok: true};
     }
-    /*
-    const playRound = () => {
-        const index = Number(window.prompt("index 0-8"));
-        return placeMarker(index);
-    };
-    */
+
+    const updateTile = (tileNum, mark) => {
+        const div = document.querySelector(`[data-tile-num="${tileNum}"]`);
+        div.textContent = mark;
+    }
+
+    const resetTiles = () => {
+        const divs = document.querySelectorAll('[data-tile-num]');
+        divs.forEach(div => { div.textContent = '-'; });
+    }
+
     const status = () => ({
         board: gameboard.boardView(),
             activePlayer
@@ -70,20 +75,36 @@ const gameController = (function() {
 
     const checkWinner = () => {
         const board = gameboard.boardView();
+        let winner = false;
         for (let winCon of winCons) {
             const [a, b, c] = winCon;
             if (board[a] && board[a] === board[b] && board[a] === board[c]){
-                console.log("Winner!", activePlayer, board);
+                winner = true;
+                alert(`"Winner!", ${activePlayer.name}`);
+                resetGame();
+                return;
             }
         }
         console.log(board);
+        const tieCheck = [];
+        for (const tile of board){
+            if (tile !== null){
+                tieCheck.push(tile);
+            }
+        }
+        if (tieCheck.length === 9 && !winner){
+            alert("tie");
+            resetGame();
+
+        }
     }
 
     const resetGame = () => {
         gameboard.clear();
+        resetTiles();
     }
 
-    return { switchActivePlayer, /* playRound, */ placeMarker, status };
+    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles };
 })();
 
 const initDom = (function() {
@@ -97,10 +118,11 @@ const initDom = (function() {
             board.append(div);
             div.addEventListener("click", (e) => {
                 gameController.placeMarker(Number(e.currentTarget.dataset.tileNum));
+
             });
         }
     }
     buildGrid();
+
     return {buildGrid};
 })();
-console.log(gameController.status());
