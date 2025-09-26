@@ -47,10 +47,12 @@ const gameController = (function() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     }
 
-    const placeMarker = () => {
-        const index = Number(window.prompt("index 0-8"));
-        const check = gameboard.place(index, activePlayer.mark);
-        if (!check.ok) return check;
+    const placeMarker = (tileNum) => {
+        const check = gameboard.place(tileNum, activePlayer.mark);
+        if (!check.ok) {
+            console.warn(check.reason);
+            return check
+        }
         checkWinner();
         switchActivePlayer();
         return {ok: true};
@@ -88,12 +90,14 @@ const initDom = (function() {
 
     const buildGrid = () => {
         const board = document.querySelector("#board");
-
         for (let i = 0; i < 9; i++){
             const div = document.createElement("div");
             div.textContent = "-";
+            div.dataset.tileNum = i.toString();
             board.append(div);
-            div.addEventListener("click", gameController.placeMarker);
+            div.addEventListener("click", (e) => {
+                gameController.placeMarker(Number(e.currentTarget.dataset.tileNum));
+            });
         }
     }
     buildGrid();
