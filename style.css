@@ -2,6 +2,7 @@ html, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background: linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%);
 }
 
 h1 {
@@ -9,17 +10,27 @@ h1 {
     text-align: center;
 }
 
+.heading {
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    margin: 15px auto;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(1fr, 1000px));
+    grid-template-rows: 2fr 4fr;
     margin: 0 auto;
-    padding: 18px;
+
     justify-content: center;
     align-items: center;
     text-align: center;
 }
 
 #board {
+
+    border: transparent;
     display: grid;
     grid-template-columns: repeat(3, minmax(300px, 1fr));
     grid-template-rows: repeat(3, minmax(200px, 1fr));
