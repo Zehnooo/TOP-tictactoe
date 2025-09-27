@@ -16,16 +16,11 @@ const gameboard = (function () {
 })();
 
 const gameController = (function() {
-    const players = [
-        {
-            name: "P1",
-            mark: "X"
-        },
-        {
-            name: "P2",
-            mark: "O"
-        },
-    ]
+    const getPlayers = () => ([
+        { name: "P1", mark: "X" },
+        { name: "P2", mark: "O" },
+    ]);
+
     const winCons = [
         // Rows
         [0, 1, 2],
@@ -39,7 +34,7 @@ const gameController = (function() {
         [0, 4, 8],
         [2, 4, 6]
     ]
-
+    const players = getPlayers();
     let activePlayer = players[Math.floor(Math.random() * 2)];
 
     const switchActivePlayer = () => {
@@ -104,16 +99,30 @@ const gameController = (function() {
         resetTiles();
     }
 
-    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles };
+    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles, getPlayers };
 })();
 
 const initDom = (function() {
+    const players = gameController.getPlayers();
+    const playerOne = players[0].name;
+    const setPlayerData = (function() {
+        const parent = document.querySelector('#player-data');
+        const p1Div = parent.querySelector('#p1');
+        const pName = document.createElement('p');
+        const pMark = document.createElement('p');
+        console.log(players);
+        console.log("p1", playerOne);
 
-    const buildGrid = () => {
+        return {};
+    })();
+
+    const buildGrid = (function() {
         const board = document.querySelector("#board");
         for (let i = 0; i < 9; i++){
             const div = document.createElement("div");
-            div.textContent = "-";
+            const span = document.createElement("span");
+            span.textContent = "-";
+            div.appendChild(span);
             div.dataset.tileNum = i.toString();
             board.append(div);
             div.addEventListener("click", (e) => {
@@ -121,8 +130,9 @@ const initDom = (function() {
 
             });
         }
-    }
-    buildGrid();
+        return {};
+    })();
 
-    return {buildGrid};
+
+    return {};
 })();
