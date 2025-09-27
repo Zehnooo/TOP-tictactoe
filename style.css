@@ -2,11 +2,10 @@ html, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%);
+    background-color: #100C08;
 }
 
 h1 {
-
     text-align: center;
 }
 
@@ -14,31 +13,37 @@ h1 {
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 100%;
-    margin: 15px auto;
+    margin: 0 auto;
     background-color: #eee;
 }
-
+#player-data {
+    display: flex;
+    flex-direction: row;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    margin: 0 auto;
+    background-color: #eee;
+}
 .container {
     display: grid;
     grid-template-columns: repeat(1, minmax(1fr, 1000px));
-    grid-template-rows: 2fr 4fr;
+    grid-template-rows: 1fr 1fr 2fr;
     margin: 0 auto;
-
     justify-content: center;
     align-items: center;
     text-align: center;
 }
 
 #board {
-
     border: transparent;
     display: grid;
-    grid-template-columns: repeat(3, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(200px, 1fr));
     grid-template-rows: repeat(3, minmax(200px, 1fr));
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: black;
+    background-color: #eeeeee;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     gap: 8px;
 }
@@ -46,15 +51,31 @@ h1 {
 #board div {
     width: 100%;
     height: 100%;
-    background-color: #eee;
+    background-color: #100C08;
+    color: #eeeeee;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
+    font-size: 4rem;
     font-weight: bold;
     cursor: pointer;
 }
 
+#board div:hover span{
+    color: #318CE7;
+    animation: float 1s ease-in-out infinite;
+}
 
+@keyframes float {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+
+}
 
 
