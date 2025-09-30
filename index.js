@@ -103,18 +103,32 @@ const gameController = (function() {
 })();
 
 const initDom = (function() {
-    const players = gameController.getPlayers();
-    const playerOne = players[0].name;
-    const setPlayerData = (function() {
-        const parent = document.querySelector('#player-data');
-        const p1Div = parent.querySelector('#p1');
-        const pName = document.createElement('p');
-        const pMark = document.createElement('p');
-        console.log(players);
-        console.log("p1", playerOne);
 
-        return {};
-    })();
+    const buildPlayerBar = () => {
+            const parent = document.querySelector('#player-data');
+            const players = gameController.getPlayers();
+                // set player 1
+            const p1Div = parent.querySelector('#p1');
+            const p1Name = document.createElement('p');
+            p1Name.textContent = players[0].name
+            const p1Mark = document.createElement('p');
+            p1Mark.textContent = players[0].mark;
+            p1Div.classList.add('player');
+            p1Div.appendChild(p1Name);
+            p1Div.appendChild(p1Mark);
+            parent.appendChild(p1Div);
+
+                // set player 2
+            const p2Div = parent.querySelector('#p2');
+            const p2Name = document.createElement('p');
+            p2Name.textContent = players[1].name
+            const p2Mark = document.createElement('p');
+            p2Mark.textContent = players[1].mark;
+            p2Div.classList.add('player');
+            p2Div.appendChild(p2Name);
+            p2Div.appendChild(p2Mark);
+            parent.appendChild(p2Div);
+    }
 
     const buildGrid = () => {
         const board = document.querySelector("#board");
@@ -131,9 +145,14 @@ const initDom = (function() {
 
             });
         }
-        return {};
     };
 
+    buildPlayerBar();
     buildGrid();
-    return {buildGrid};
-})();
+
+        return {buildGrid, buildPlayerBar};
+    })();
+
+
+
+
