@@ -90,13 +90,13 @@ const gameController = (function() {
         if (tieCheck.length === 9 && !winner){
             alert("tie");
             resetGame();
-
         }
     }
 
     const resetGame = () => {
         gameboard.clear();
         resetTiles();
+        initDom.buildGrid();
     }
 
     return { switchActivePlayer, placeMarker, status, updateTile, resetTiles, getPlayers };
@@ -116,8 +116,9 @@ const initDom = (function() {
         return {};
     })();
 
-    const buildGrid = (function() {
+    const buildGrid = () => {
         const board = document.querySelector("#board");
+        board.textContent = '';
         for (let i = 0; i < 9; i++){
             const div = document.createElement("div");
             const span = document.createElement("span");
@@ -131,8 +132,8 @@ const initDom = (function() {
             });
         }
         return {};
-    })();
+    };
 
-
-    return {};
+    buildGrid();
+    return {buildGrid};
 })();
