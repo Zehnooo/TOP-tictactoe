@@ -37,8 +37,10 @@ const gameController = (function() {
     const players = getPlayers();
     let activePlayer = players[Math.floor(Math.random() * 2)];
 
+
     const switchActivePlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
+        initDom.showActivePlayer(activePlayer);
     }
 
     const placeMarker = (tileNum) => {
@@ -109,22 +111,22 @@ const initDom = (function() {
             const players = gameController.getPlayers();
                 // set player 1
             const p1Div = parent.querySelector('#p1');
-            const p1Name = document.createElement('p');
+            const p1Name = document.createElement('h1');
             p1Name.textContent = players[0].name
-            const p1Mark = document.createElement('p');
+            const p1Mark = document.createElement('h1');
             p1Mark.textContent = players[0].mark;
-            p1Div.classList.add('player');
+
             p1Div.appendChild(p1Name);
             p1Div.appendChild(p1Mark);
             parent.appendChild(p1Div);
 
                 // set player 2
             const p2Div = parent.querySelector('#p2');
-            const p2Name = document.createElement('p');
+            const p2Name = document.createElement('h1');
             p2Name.textContent = players[1].name
-            const p2Mark = document.createElement('p');
+            const p2Mark = document.createElement('h1');
             p2Mark.textContent = players[1].mark;
-            p2Div.classList.add('player');
+
             p2Div.appendChild(p2Name);
             p2Div.appendChild(p2Mark);
             parent.appendChild(p2Div);
@@ -147,10 +149,19 @@ const initDom = (function() {
         }
     };
 
+    const showActivePlayer = (activeP) => {
+        const parent = document.querySelector("#active-player");
+        const div = document.createElement("div");
+        const pName = document.createElement('h2');
+        pName.textContent = activeP.name;
+        div.appendChild(pName);
+        parent.appendChild(pName);
+    }
+
     buildPlayerBar();
     buildGrid();
 
-        return {buildGrid, buildPlayerBar};
+        return {buildGrid, buildPlayerBar, showActivePlayer};
     })();
 
 
