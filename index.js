@@ -151,6 +151,7 @@ const initDom = (function() {
 
     const showActivePlayer = (activeP) => {
         const parent = document.querySelector("#active-player");
+        parent.textContent = "";
         const div = document.createElement("div");
         const pName = document.createElement('h2');
         pName.textContent = activeP.name;
