@@ -42,6 +42,9 @@ const gameController = (function() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
         initDom.showActivePlayer(activePlayer);
     }
+    const getActivePlayer = () => {
+        return activePlayer;
+    }
 
     const placeMarker = (tileNum) => {
         const check = gameboard.place(tileNum, activePlayer.mark);
@@ -101,14 +104,16 @@ const gameController = (function() {
         initDom.buildGrid();
     }
 
-    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles, getPlayers };
+    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles, getPlayers, getActivePlayer };
 })();
 
 const initDom = (function() {
 
     const buildPlayerBar = () => {
+
             const parent = document.querySelector('#player-data');
             const players = gameController.getPlayers();
+
                 // set player 1
             const p1Div = parent.querySelector('#p1');
             const p1Name = document.createElement('h1');
@@ -137,32 +142,52 @@ const initDom = (function() {
         board.textContent = '';
         for (let i = 0; i < 9; i++){
             const div = document.createElement("div");
-            const span = document.createElement("span");
-            span.textContent = "-";
-            div.appendChild(span);
             div.dataset.tileNum = i.toString();
+            div.classList.add("empty");
             board.append(div);
             div.addEventListener("click", (e) => {
                 gameController.placeMarker(Number(e.currentTarget.dataset.tileNum));
-
+                div.classList.remove("empty");
             });
         }
     };
 
-    const showActivePlayer = (activeP) => {
+    const showActivePlayer = () => {
+        let activeP = gameController.getActivePlayer();
         const parent = document.querySelector("#active-player");
         parent.textContent = "";
         const div = document.createElement("div");
+        const greeting = document.createElement("p");
         const pName = document.createElement('h2');
+        greeting.textContent = "Your turn, "
         pName.textContent = activeP.name;
+        div.appendChild(greeting);
         div.appendChild(pName);
-        parent.appendChild(pName);
+        parent.appendChild(div);
     }
 
+    const buildSettings = () => {
+        const settings = document.querySelector("#settings");
+        const div = document.createElement("div");
+
+        const nameBtn = document.createElement("button");
+        const btnLabel = document.createElement("label");
+        btnLabel.textContent = "Player Name";
+        nameBtn.textContent = "Edit";
+        nameBtn.id = "nameBtn";
+        btnLabel.htmlFor = "nameBtn";
+
+        div.appendChild(btnLabel);
+        div.appendChild(nameBtn);
+        settings.appendChild(div);
+    }
+
+    showActivePlayer();
     buildPlayerBar();
     buildGrid();
+    buildSettings();
 
-        return {buildGrid, buildPlayerBar, showActivePlayer};
+        return {buildGrid, buildPlayerBar, buildSettings, showActivePlayer};
     })();
 
 
