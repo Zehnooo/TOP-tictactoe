@@ -97,11 +97,12 @@ h1 {
     margin: 24px;
     text-align: center;
     color: rgb(0, 109, 111);
+    font-weight: 800;
 }
 #active-player p {
     margin: 24px;
     text-align: left;
-    font-weight: 800;
+    font-weight: 600;
 }
 
 #board {
@@ -149,6 +150,15 @@ h1 {
 #game-actions {
     grid-column: 2 / 3;
     grid-row: 4 / 5;
+}
+
+dialog::backdrop {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 @keyframes blink {
