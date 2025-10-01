@@ -130,11 +130,11 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 4rem;
+    font-size: 6rem;
     font-style: normal;
     font-weight: bold;
     cursor: pointer;
-
+    -webkit-text-stroke: 1px white;
 }
 
 .empty:hover {
