@@ -16,10 +16,20 @@ const gameboard = (function () {
 })();
 
 const gameController = (function() {
-    const getPlayers = () => ([
+    const players = [
         { name: "P1", mark: "X" },
-        { name: "P2", mark: "O" },
-    ]);
+        { name: "P2", mark: "O" }
+    ]
+
+    const getPlayers = () => { return players; }
+
+    const updatePlayer = (name) => {
+        players[0].name = name;
+        if (activePlayer === players[0]){
+            initDom.showActivePlayer();
+        }
+        initDom.refreshPlayerBar(name);
+    }
 
     const winCons = [
         // Rows
@@ -34,7 +44,7 @@ const gameController = (function() {
         [0, 4, 8],
         [2, 4, 6]
     ]
-    const players = getPlayers();
+
     let activePlayer = players[Math.floor(Math.random() * 2)];
 
 
@@ -104,7 +114,7 @@ const gameController = (function() {
         initDom.buildGrid();
     }
 
-    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles, getPlayers, getActivePlayer };
+    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles, getPlayers, getActivePlayer, updatePlayer };
 })();
 
 const initDom = (function() {
@@ -117,7 +127,8 @@ const initDom = (function() {
                 // set player 1
             const p1Div = parent.querySelector('#p1');
             const p1Name = document.createElement('h1');
-            p1Name.textContent = players[0].name
+                p1Name.textContent = players[0].name
+                p1Name.id = "player-name";
             const p1Mark = document.createElement('h1');
             p1Mark.textContent = players[0].mark;
 
@@ -135,6 +146,10 @@ const initDom = (function() {
             p2Div.appendChild(p2Name);
             p2Div.appendChild(p2Mark);
             parent.appendChild(p2Div);
+    }
+
+    const refreshPlayerBar = (name) => {
+        document.getElementById("player-name").textContent = name;
     }
 
     const buildGrid = () => {
@@ -177,17 +192,43 @@ const initDom = (function() {
         nameBtn.id = "nameBtn";
         btnLabel.htmlFor = "nameBtn";
 
+            nameBtn.addEventListener("click", (e) => {
+                const dialog = document.querySelector("dialog");
+                dialog.textContent = "";
+                const form = document.createElement("form");
+                const input = document.createElement("input");
+                const heading = document.createElement("h3");
+                heading.textContent = "Enter new name"
+                input.type = "text";
+                dialog.append(heading);
+                form.appendChild(input);
+                dialog.append(form);
+                dialog.showModal();
+
+                    form.addEventListener("submit", (e) => {
+                        e.preventDefault();
+                        const value = input.value.trim();
+                        if (!value) {
+                            alert("Name cannot be empty");
+                            return false;
+                        }
+                        dialog.close();
+                        gameController.updatePlayer(value);
+                    })
+
+            });
         div.appendChild(btnLabel);
         div.appendChild(nameBtn);
         settings.appendChild(div);
     }
+
 
     showActivePlayer();
     buildPlayerBar();
     buildGrid();
     buildSettings();
 
-        return {buildGrid, buildPlayerBar, buildSettings, showActivePlayer};
+        return {buildGrid, buildPlayerBar, buildSettings, showActivePlayer, refreshPlayerBar};
     })();
 
 
