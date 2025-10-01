@@ -6,48 +6,74 @@ html, body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.container {
+    width: 90vw;
+    display: grid;
+    grid-template-columns: minmax(150px, 300px) minmax(300px, auto);
+    grid-template-rows: repeat(3, auto);
+    margin: 25px auto;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+}
+
 h1 {
     text-align: center;
 }
 
 .heading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     border-radius: 12px;
+    padding: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     width: 100%;
     margin: 0 auto;
     background-color: #eee;
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
 }
 #player-data {
-    display: flex;
-    flex-direction: row;
-    border-radius: 12px;
-    width: 100%;
-    padding: 16px;
-    margin: 0 auto;
-    background-color: #eee;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    gap: 24px;
-    box-shadow: 1px 1px 20px 2px rgba(209, 230, 248, 0.8);
-}
-
-.player {
+    grid-column: 0 / 1;
+    grid-row: 1 / 4;
     display: flex;
     flex-direction: column;
     border-radius: 12px;
-    background-color: #eee;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 100%;
     width: 100%;
-}
-.container {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(1fr, 1000px));
-    grid-template-rows: 1fr 1fr 2fr;
+    padding: 8px;
     margin: 0 auto;
-    justify-content: center;
+    background-color: #eee;
+    box-shadow: 1px 1px 20px 2px rgba(209, 230, 248, 0.8);
+    justify-content: space-evenly;
     align-items: center;
     text-align: center;
+
+}
+
+#player-data > div {
+    margin: 8px 0;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background-color: #eee;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 50%;
+    width: 80%;
+}
+
+#active-player {
+
+    width: 100%;
+    background-color: #eee;
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
 }
 
 #board {
