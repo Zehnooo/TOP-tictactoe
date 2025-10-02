@@ -49,7 +49,7 @@ const gameController = (function() {
 
     const startGame = () => {
         activePlayer = players[Math.floor(Math.random() * 2)];
-
+        gameboard.clear();
     }
 
     const switchActivePlayer = () => {
@@ -66,21 +66,13 @@ const gameController = (function() {
             console.warn(check.reason);
             return check
         }
-        updateTile(tileNum, activePlayer.mark);
+        initDom.updateTile(tileNum, activePlayer.mark);
         checkWinner();
         switchActivePlayer();
         return {ok: true};
     }
 
-    const updateTile = (tileNum, mark) => {
-        const div = document.querySelector(`[data-tile-num="${tileNum}"]`);
-        div.textContent = mark;
-    }
 
-    const resetTiles = () => {
-        const divs = document.querySelectorAll('[data-tile-num]');
-        divs.forEach(div => { div.textContent = ''; });
-    }
 
     const status = () => ({
         board: gameboard.boardView(),
@@ -114,11 +106,11 @@ const gameController = (function() {
 
     const resetGame = () => {
         gameboard.clear();
-        resetTiles();
+        initDom.resetTiles();
         initDom.buildGrid();
     }
 
-    return { switchActivePlayer, placeMarker, status, updateTile, resetGame, getPlayers, getActivePlayer, updatePlayer, startGame };
+    return { switchActivePlayer, placeMarker, status, resetGame, getPlayers, getActivePlayer, updatePlayer, startGame };
 })();
 
 const initDom = (function() {
@@ -159,6 +151,8 @@ const initDom = (function() {
     const buildGrid = () => {
         const board = document.querySelector("#board");
         board.textContent = '';
+        board.style.display = 'grid';
+        board.classList.remove('hide');
         for (let i = 0; i < 9; i++){
             const div = document.createElement("div");
             div.dataset.tileNum = i.toString();
@@ -174,16 +168,24 @@ const initDom = (function() {
 
     const showActivePlayer = () => {
         let activeP = gameController.getActivePlayer();
+
         const parent = document.querySelector("#active-player");
         parent.textContent = "";
+
         const div = document.createElement("div");
+
         const greeting = document.createElement("p");
-        const pName = document.createElement('h2');
         greeting.textContent = "Your turn, "
+
+        const pName = document.createElement('h2');
         pName.textContent = activeP.name;
+
         div.appendChild(greeting);
         div.appendChild(pName);
         parent.appendChild(div);
+
+        parent.classList.remove('hide');
+        parent.style.display = 'flex';
     }
 
     const buildSettings = () => {
@@ -268,19 +270,30 @@ const initDom = (function() {
         const gameTrigger = document.createElement("button");
         gameTrigger.textContent = "Start Game";
         gameTrigger.addEventListener("click", (e) => {
+            gameController.startGame();
             e.preventDefault();
             buildPlayerBar();
-            // showActivePlayer();
+            showActivePlayer();
             buildGrid();
         });
 
         div.appendChild(gameTrigger);
     }
 
+    const updateTile = (tileNum, mark) => {
+        const div = document.querySelector(`[data-tile-num="${tileNum}"]`);
+        div.textContent = mark;
+    }
+
+    const resetTiles = () => {
+        const divs = document.querySelectorAll('[data-tile-num]');
+        divs.forEach(div => { div.textContent = ''; });
+    }
+
     buildGameActions();
     buildSettings();
 
-        return {buildGrid, showActivePlayer, refreshPlayerBar};
+        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles};
     })();
 
 
