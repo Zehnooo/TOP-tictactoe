@@ -204,6 +204,7 @@ const initDom = (function() {
                 const closeDialog = document.createElement("button");
                 closeDialog.textContent = "X";
                 closeDialog.className = "close";
+                closeDialog.type = "button";
                 dialog.textContent = "";
 
                 const form = document.createElement("form");
