@@ -6,6 +6,10 @@ html, body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.hide {
+    display: none;
+}
+
 .container {
     width: 90vw;
     display: grid;
@@ -80,7 +84,7 @@ h1 {
 }
 
 #active-player {
-    display: flex;
+
     flex: 1;
     justify-content: center;
     align-items: center;
@@ -114,7 +118,6 @@ h1 {
 
 #board {
     border: transparent;
-    display: grid;
     grid-template-columns: repeat(3, minmax(200px, 1fr));
     grid-template-rows: repeat(3, minmax(200px, 1fr));
     align-items: center;
