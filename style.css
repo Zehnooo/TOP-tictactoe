@@ -70,8 +70,21 @@ h1 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     height: 50%;
     width: 80%;
-    font-size: clamp(14px, 2vw, 4vw);
+    font-size: clamp(20px, 1vw, 3vw);
     padding: 12px;
+}
+
+#placeholder {
+    margin: 0 auto;
+    user-select: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-column: 2 / 3;
+    grid-row: 2 / 4;
+    width: 100%;
+    color: white;
+    animation: hover2 1.8s ease-in-out infinite;
 }
 
 #player-data > div > * {
@@ -171,7 +184,7 @@ h1 {
     grid-row: 4 / 5;
 }
 
-#settings > div {
+#settings > div, #game-actions {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -181,7 +194,7 @@ h1 {
     gap: 16px;
 }
 
-#settings > div button {
+#settings > div button, #game-actions button {
     background-color: rgb(0, 109, 111);
     color: #eeeeee;
     padding: 12px;
@@ -201,6 +214,7 @@ h1 {
     color: #100C08;
     text-wrap: wrap;
     text-transform: uppercase;
+    font-weight: 500;
 }
 
 #game-actions {
@@ -307,6 +321,15 @@ dialog::backdrop {
     }
     50% {
         transform: translateY(-5px);
+    }
+}
+
+@keyframes hover2 {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
     }
 }
 
