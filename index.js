@@ -87,7 +87,7 @@ const gameController = (function() {
             if (board[a] && board[a] === board[b] && board[a] === board[c]){
                 winner = true;
                 initDom.alertGameOver(activePlayer.name);
-                initDom.disableTiles();
+
                 return;
             }
         }
@@ -167,7 +167,7 @@ const initDom = (function() {
             div.dataset.tileNum = i.toString();
             div.classList.add("empty");
             board.append(div);
-            div.addEventListener("click", placeTile);
+            div.addEventListener("click", placeTile, {once: true});
         }
     };
 
@@ -322,15 +322,6 @@ const initDom = (function() {
         divs.forEach(div => { div.textContent = ''; });
     }
 
-    const disableTiles = () => {
-        const board = document.querySelector("#board");
-        const divs = board.querySelectorAll("div");
-
-        for (let div of divs) {
-            div.removeEventListener("click", placeTile);
-        }
-    }
-
     const alertGameOver = (winner) => {
 
         const gameOverDialog = document.querySelector("#game-over-dialog");
@@ -390,7 +381,7 @@ const initDom = (function() {
     buildGameActions();
     buildSettings();
 
-        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles, alertGameOver, disableTiles};
+        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles, alertGameOver, /*disableTiles*/};
     })();
 
 
