@@ -45,8 +45,12 @@ const gameController = (function() {
         [2, 4, 6]
     ]
 
-    let activePlayer = players[Math.floor(Math.random() * 2)];
+    let activePlayer;
 
+    const startGame = () => {
+        activePlayer = players[Math.floor(Math.random() * 2)];
+
+    }
 
     const switchActivePlayer = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -75,7 +79,7 @@ const gameController = (function() {
 
     const resetTiles = () => {
         const divs = document.querySelectorAll('[data-tile-num]');
-        divs.forEach(div => { div.textContent = '-'; });
+        divs.forEach(div => { div.textContent = ''; });
     }
 
     const status = () => ({
@@ -114,7 +118,7 @@ const gameController = (function() {
         initDom.buildGrid();
     }
 
-    return { switchActivePlayer, placeMarker, status, updateTile, resetTiles, getPlayers, getActivePlayer, updatePlayer };
+    return { switchActivePlayer, placeMarker, status, updateTile, resetGame, getPlayers, getActivePlayer, updatePlayer, startGame };
 })();
 
 const initDom = (function() {
@@ -198,7 +202,7 @@ const initDom = (function() {
         btnLabel.htmlFor = "nameBtn";
 
             nameBtn.addEventListener("click", (e) => {
-
+                e.preventDefault();
                 const dialog = document.querySelector("dialog");
 
                 const closeDialog = document.createElement("button");
@@ -206,6 +210,7 @@ const initDom = (function() {
                 closeDialog.className = "close";
                 closeDialog.type = "button";
                 dialog.textContent = "";
+                dialog.id = "name-dialog"
 
                 const form = document.createElement("form");
 
@@ -257,13 +262,25 @@ const initDom = (function() {
         settings.appendChild(div);
     }
 
+    const buildGameActions = () => {
+        const div = document.querySelector("#game-actions");
 
-    showActivePlayer();
-    buildPlayerBar();
-    buildGrid();
+        const gameTrigger = document.createElement("button");
+        gameTrigger.textContent = "Start Game";
+        gameTrigger.addEventListener("click", (e) => {
+            e.preventDefault();
+            buildPlayerBar();
+            // showActivePlayer();
+            buildGrid();
+        });
+
+        div.appendChild(gameTrigger);
+    }
+
+    buildGameActions();
     buildSettings();
 
-        return {buildGrid, buildPlayerBar, buildSettings, showActivePlayer, refreshPlayerBar};
+        return {buildGrid, showActivePlayer, refreshPlayerBar};
     })();
 
 
