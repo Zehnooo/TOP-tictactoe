@@ -9,7 +9,7 @@ html, body {
 .container {
     width: 90vw;
     display: grid;
-    grid-template-columns: minmax(150px, 1fr) minmax(300px, 2fr);
+    grid-template-columns: minmax(150px, 1fr) minmax(300px, 3fr);
     grid-template-rows: repeat(4, auto);
     margin: 25px auto;
     justify-content: center;
@@ -67,6 +67,11 @@ h1 {
     height: 50%;
     width: 80%;
     font-size: clamp(14px, 2vw, 4vw);
+    padding: 12px;
+}
+
+#player-data > div > * {
+    text-wrap: balance;
 }
 
 #player-data > div > :not(:first-child) {
@@ -91,6 +96,7 @@ h1 {
 
 #active-player > div {
     width: 100%;
+    padding: 8px;
 }
 
 #active-player h2 {
@@ -98,6 +104,7 @@ h1 {
     text-align: center;
     color: rgb(0, 109, 111);
     font-weight: 800;
+    animation: hover 1.5s ease-in-out infinite;
 }
 #active-player p {
     margin: 24px;
@@ -289,8 +296,14 @@ dialog::backdrop {
     50% {
         background-color: rgba(0, 109, 111, .7);
     }
-
-
 }
 
+@keyframes hover {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
 
