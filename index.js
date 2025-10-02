@@ -163,6 +163,7 @@ const initDom = (function() {
             div.addEventListener("click", (e) => {
                 gameController.placeMarker(Number(e.currentTarget.dataset.tileNum));
                 div.classList.remove("empty");
+                div.style.cursor = "not-allowed";
             });
         }
     };
@@ -182,38 +183,71 @@ const initDom = (function() {
     }
 
     const buildSettings = () => {
+
         const settings = document.querySelector("#settings");
+
         const div = document.createElement("div");
 
         const nameBtn = document.createElement("button");
-        const btnLabel = document.createElement("label");
-        btnLabel.textContent = "Player Name";
         nameBtn.textContent = "Edit";
         nameBtn.id = "nameBtn";
+        nameBtn.style.textTransform = "uppercase";
+
+        const btnLabel = document.createElement("label");
+        btnLabel.textContent = "Player Name";
         btnLabel.htmlFor = "nameBtn";
 
             nameBtn.addEventListener("click", (e) => {
+
                 const dialog = document.querySelector("dialog");
+
+                const closeDialog = document.createElement("button");
+                closeDialog.textContent = "X";
+                closeDialog.className = "close";
                 dialog.textContent = "";
+
                 const form = document.createElement("form");
+
                 const input = document.createElement("input");
-                const heading = document.createElement("h3");
-                heading.textContent = "Enter new name"
                 input.type = "text";
-                dialog.append(heading);
+                input.placeholder = "Steven Bills"
+
+                const heading = document.createElement("h3");
+                heading.textContent = "Enter Your Name"
+                heading.style.textTransform = "uppercase";
+                const submit = document.createElement("button");
+                submit.type = "submit";
+                submit.textContent = "SAVE";
+                submit.className = "save";
+
+                form.appendChild(closeDialog);
+                form.appendChild(heading);
                 form.appendChild(input);
-                dialog.append(form);
+                form.appendChild(submit);
+
+                dialog.appendChild(form);
                 dialog.showModal();
 
-                    form.addEventListener("submit", (e) => {
-                        e.preventDefault();
-                        const value = input.value.trim();
-                        if (!value) {
+                closeDialog.addEventListener("click", e => {
+                    e.preventDefault();
+                    dialog.close();
+                });
+
+                dialog.addEventListener("cancel", (e) => {
+                    e.preventDefault();
+                    dialog.close();
+                });
+
+                form.addEventListener("submit", (e) => {
+                    e.preventDefault();
+                    const value = input.value.trim();
+                    if (!value) {
                             alert("Name cannot be empty");
                             return false;
                         }
-                        dialog.close();
-                        gameController.updatePlayer(value);
+
+                    dialog.close();
+                    gameController.updatePlayer(value);
                     })
 
             });
