@@ -115,6 +115,17 @@ const gameController = (function() {
 
 const initDom = (function() {
 
+    const placeholder = document.querySelector("#placeholder");
+
+    const line1 = document.createElement("h2");
+    line1.textContent = "WELCOME AND THANK YOU FOR YOUR TIME!";
+
+    const line2 = document.createElement("h2");
+    line2.textContent = "HOPE TO SEE YOU AGAIN <3";
+
+    placeholder.appendChild(line1);
+    placeholder.appendChild(line2);
+
     const buildPlayerBar = () => {
 
             const parent = document.querySelector('#player-data');
@@ -200,7 +211,7 @@ const initDom = (function() {
         nameBtn.style.textTransform = "uppercase";
 
         const btnLabel = document.createElement("label");
-        btnLabel.textContent = "Player Name";
+        btnLabel.textContent = "Change Name";
         btnLabel.htmlFor = "nameBtn";
 
             nameBtn.addEventListener("click", (e) => {
@@ -267,17 +278,38 @@ const initDom = (function() {
     const buildGameActions = () => {
         const div = document.querySelector("#game-actions");
 
-        const gameTrigger = document.createElement("button");
-        gameTrigger.textContent = "Start Game";
-        gameTrigger.addEventListener("click", (e) => {
-            gameController.startGame();
+        const playBtn = document.createElement("button");
+        playBtn.textContent = "PLAY";
+        playBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            buildPlayerBar();
+            placeholder.classList.add("hide");
+
+            gameController.startGame();
             showActivePlayer();
             buildGrid();
+            playBtn.classList.add("hide");
+            resetBtn.classList.remove("hide");
         });
 
-        div.appendChild(gameTrigger);
+        const resetBtn = document.createElement("button");
+        resetBtn.textContent = "RESET";
+        resetBtn.classList.add("hide");
+        resetBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            document.querySelector("#active-player").classList.add("hide");
+            document.querySelector("#active-player").style.display = 'none';
+
+            document.querySelector("#board").classList.add("hide");
+            document.querySelector("#board").style.display = 'none';
+
+            placeholder.classList.remove("hide");
+
+
+            resetBtn.classList.add("hide");
+            playBtn.classList.remove("hide");
+        });
+        div.appendChild(playBtn);
+        div.appendChild(resetBtn);
     }
 
     const updateTile = (tileNum, mark) => {
@@ -290,6 +322,7 @@ const initDom = (function() {
         divs.forEach(div => { div.textContent = ''; });
     }
 
+    buildPlayerBar();
     buildGameActions();
     buildSettings();
 
