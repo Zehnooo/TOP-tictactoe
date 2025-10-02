@@ -86,12 +86,11 @@ const gameController = (function() {
             const [a, b, c] = winCon;
             if (board[a] && board[a] === board[b] && board[a] === board[c]){
                 winner = true;
-                alert(`"Winner!", ${activePlayer.name}`);
-                resetGame();
+                initDom.alertGameOver(activePlayer.name);
+                initDom.disableTiles();
                 return;
             }
         }
-        console.log(board);
         const tieCheck = [];
         for (const tile of board){
             if (tile !== null){
@@ -99,8 +98,7 @@ const gameController = (function() {
             }
         }
         if (tieCheck.length === 9 && !winner){
-            alert("tie");
-            resetGame();
+            initDom.alertGameOver("tie");
         }
     }
 
@@ -169,11 +167,7 @@ const initDom = (function() {
             div.dataset.tileNum = i.toString();
             div.classList.add("empty");
             board.append(div);
-            div.addEventListener("click", (e) => {
-                gameController.placeMarker(Number(e.currentTarget.dataset.tileNum));
-                div.classList.remove("empty");
-                div.style.cursor = "not-allowed";
-            });
+            div.addEventListener("click", placeTile);
         }
     };
 
@@ -312,6 +306,12 @@ const initDom = (function() {
         div.appendChild(resetBtn);
     }
 
+    const placeTile = (e) => {
+        gameController.placeMarker(Number(e.currentTarget.dataset.tileNum));
+        e.currentTarget.classList.remove("empty");
+        e.currentTarget.style.cursor = "not-allowed";
+    }
+
     const updateTile = (tileNum, mark) => {
         const div = document.querySelector(`[data-tile-num="${tileNum}"]`);
         div.textContent = mark;
@@ -322,11 +322,75 @@ const initDom = (function() {
         divs.forEach(div => { div.textContent = ''; });
     }
 
+    const disableTiles = () => {
+        const board = document.querySelector("#board");
+        const divs = board.querySelectorAll("div");
+
+        for (let div of divs) {
+            div.removeEventListener("click", placeTile);
+        }
+    }
+
+    const alertGameOver = (winner) => {
+
+        const gameOverDialog = document.querySelector("#game-over-dialog");
+        gameOverDialog.style.display = 'flex';
+
+        const container = document.createElement("div");
+
+        const btn = document.createElement("button");
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+            gameOverDialog.style.display = 'none';
+            gameOverDialog.close();
+            gameOverDialog.textContent = "";
+        });
+        btn.textContent = "X";
+        btn.classList.add("close");
+        container.appendChild(btn);
+
+        if (winner !== "tie") {
+            const heading = document.createElement("h1");
+            heading.textContent = "CONGRATS"
+
+            const player = document.createElement("h2");
+            player.textContent = winner.toString();
+            player.style.color = "rgb(0, 109, 111)";
+
+            const ending = document.createElement("h3");
+            ending.textContent = "You won!"
+
+            const img = document.createElement("img");
+            img.src = "./assets/award-svgrepo-com.svg"
+
+            container.appendChild(heading);
+            container.appendChild(player);
+            container.appendChild(ending);
+            container.appendChild(img);
+        } else {
+            const heading = document.createElement("h2");
+            heading.textContent = "BUMMER"
+
+            const ending = document.createElement("h3");
+            ending.textContent = "No winner, cat's game!"
+
+            const img = document.createElement("img");
+            img.src = "./assets/cat-svgrepo-com.svg";
+
+            container.appendChild(heading);
+            container.appendChild(ending);
+            container.appendChild(img);
+        }
+
+        gameOverDialog.appendChild(container);
+        gameOverDialog.showModal();
+    }
+
     buildPlayerBar();
     buildGameActions();
     buildSettings();
 
-        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles};
+        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles, alertGameOver, disableTiles};
     })();
 
 
