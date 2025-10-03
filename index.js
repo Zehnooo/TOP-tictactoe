@@ -23,12 +23,13 @@ const gameController = (function() {
 
     const getPlayers = () => { return players; }
 
-    const updatePlayer = (name) => {
-        players[0].name = name;
-        if (activePlayer === players[0]){
+    const updatePlayer = (name1, name2) => {
+        players[0].name = name1;
+        players[1].name = name2;
+        if (activePlayer){
             initDom.showActivePlayer();
         }
-        initDom.refreshPlayerBar(name);
+        initDom.refreshPlayerBar(name1, name2);
     }
 
     const winCons = [
@@ -87,7 +88,7 @@ const gameController = (function() {
             if (board[a] && board[a] === board[b] && board[a] === board[c]){
                 winner = true;
                 initDom.alertGameOver(activePlayer.name);
-
+                initDom.disableTiles();
                 return;
             }
         }
@@ -133,7 +134,7 @@ const initDom = (function() {
             const p1Div = parent.querySelector('#p1');
             const p1Name = document.createElement('h1');
                 p1Name.textContent = players[0].name
-                p1Name.id = "player-name";
+                p1Name.id = "p1-name";
             const p1Mark = document.createElement('h1');
             p1Mark.textContent = players[0].mark;
 
@@ -145,6 +146,7 @@ const initDom = (function() {
             const p2Div = parent.querySelector('#p2');
             const p2Name = document.createElement('h1');
             p2Name.textContent = players[1].name
+            p2Name.id = "p2-name";
             const p2Mark = document.createElement('h1');
             p2Mark.textContent = players[1].mark;
 
@@ -153,8 +155,9 @@ const initDom = (function() {
             parent.appendChild(p2Div);
     }
 
-    const refreshPlayerBar = (name) => {
-        document.getElementById("player-name").textContent = name;
+    const refreshPlayerBar = (name1, name2) => {
+        document.getElementById("p1-name").textContent = name1;
+        document.getElementById("p2-name").textContent = name2;
     }
 
     const buildGrid = () => {
@@ -210,24 +213,42 @@ const initDom = (function() {
 
             nameBtn.addEventListener("click", (e) => {
                 e.preventDefault();
+                const players = gameController.getPlayers();
+
                 const dialog = document.querySelector("dialog");
 
                 const closeDialog = document.createElement("button");
                 closeDialog.textContent = "X";
                 closeDialog.className = "close";
                 closeDialog.type = "button";
+
                 dialog.textContent = "";
                 dialog.id = "name-dialog"
 
                 const form = document.createElement("form");
 
-                const input = document.createElement("input");
-                input.type = "text";
-                input.placeholder = "Steven Bills"
-
                 const heading = document.createElement("h3");
-                heading.textContent = "Enter Your Name"
+                heading.textContent = "EDIT NAME(S)"
                 heading.style.textTransform = "uppercase";
+
+                const inputP1Label = document.createElement("label");
+                inputP1Label.textContent = "Player 1";
+                inputP1Label.htmlFor = "p1";
+
+                const inputP1 = document.createElement("input");
+                inputP1.type = "text";
+                inputP1.value = players[0].name;
+                inputP1.id = "p1";
+
+                const inputP2Label = document.createElement("label");
+                inputP2Label.textContent = "Player 2";
+                inputP2Label.htmlFor = "p2";
+
+                const inputP2 = document.createElement("input");
+                inputP2.type = "text";
+                inputP2.value = players[1].name;
+                inputP2.id = "p2";
+
                 const submit = document.createElement("button");
                 submit.type = "submit";
                 submit.textContent = "SAVE";
@@ -235,7 +256,10 @@ const initDom = (function() {
 
                 form.appendChild(closeDialog);
                 form.appendChild(heading);
-                form.appendChild(input);
+                form.appendChild(inputP1Label);
+                form.appendChild(inputP1);
+                form.appendChild(inputP2Label);
+                form.appendChild(inputP2);
                 form.appendChild(submit);
 
                 dialog.appendChild(form);
@@ -253,14 +277,12 @@ const initDom = (function() {
 
                 form.addEventListener("submit", (e) => {
                     e.preventDefault();
-                    const value = input.value.trim();
-                    if (!value) {
-                            alert("Name cannot be empty");
-                            return false;
-                        }
+                    const p1Name = inputP1.value.trim();
+                    const p2Name = inputP2.value.trim();
+
 
                     dialog.close();
-                    gameController.updatePlayer(value);
+                    gameController.updatePlayer(p1Name, p2Name);
                     })
 
             });
@@ -322,6 +344,15 @@ const initDom = (function() {
         divs.forEach(div => { div.textContent = ''; });
     }
 
+    const disableTiles = () =>  {
+        const divs = document.querySelectorAll('[data-tile-num]');
+        divs.forEach(div => {
+            div.classList.remove('empty');
+            div.style.cursor = "not-allowed";
+            div.removeEventListener("click", placeTile);
+        })
+    }
+
     const alertGameOver = (winner) => {
 
         const gameOverDialog = document.querySelector("#game-over-dialog");
@@ -381,7 +412,7 @@ const initDom = (function() {
     buildGameActions();
     buildSettings();
 
-        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles, alertGameOver, /*disableTiles*/};
+        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles, alertGameOver, disableTiles};
     })();
 
 
