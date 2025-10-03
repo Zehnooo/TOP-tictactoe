@@ -133,11 +133,13 @@ const initDom = (function() {
 
                 // set player 1
             const p1Div = parent.querySelector('#p1');
+
             const p1Name = document.createElement('h1');
                 p1Name.textContent = players[0].name
                 p1Name.id = "p1-name";
-            const p1Mark = document.createElement('h1');
-            p1Mark.textContent = players[0].mark;
+
+            const p1Mark = document.createElement('img');
+                p1Mark.src = "./assets/cross-svgrepo-com.svg";
 
             p1Div.appendChild(p1Name);
             p1Div.appendChild(p1Mark);
@@ -145,11 +147,13 @@ const initDom = (function() {
 
                 // set player 2
             const p2Div = parent.querySelector('#p2');
+
             const p2Name = document.createElement('h1');
             p2Name.textContent = players[1].name
             p2Name.id = "p2-name";
-            const p2Mark = document.createElement('h1');
-            p2Mark.textContent = players[1].mark;
+
+            const p2Mark = document.createElement('img');
+            p2Mark.src = "./assets/circle-svgrepo-com.svg";
 
             p2Div.appendChild(p2Name);
             p2Div.appendChild(p2Mark);
@@ -348,7 +352,14 @@ const initDom = (function() {
 
     const updateTile = (tileNum, mark) => {
         const div = document.querySelector(`[data-tile-num="${tileNum}"]`);
-        div.textContent = mark;
+        const imgContainer = document.createElement("div");
+        imgContainer.classList.add("mark-container");
+
+        const img = document.createElement("img");
+        mark === "X" ? img.src='./assets/cross-svgrepo-com.svg' : img.src = './assets/circle-svgrepo-com.svg';
+
+        imgContainer.appendChild(img);
+        div.appendChild(imgContainer);
     }
 
     const resetTiles = () => {
