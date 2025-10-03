@@ -28,10 +28,10 @@ html, body {
     background: linear-gradient(90deg, hsla(181, 100%, 22%, 1) 0%, hsla(210, 81%, 22%, 1) 100%);
     background: -moz-linear-gradient(90deg, hsla(181, 100%, 22%, 1) 0%, hsla(210, 81%, 22%, 1) 100%);
     background: -webkit-linear-gradient(90deg, hsla(181, 100%, 22%, 1) 0%, hsla(210, 81%, 22%, 1) 100%);
-
-    text-align: center;
     color: transparent;
     background-clip: text;
+
+    text-align: center;
     font-size: 2em;
     font-weight: 800;
 }
@@ -93,9 +93,11 @@ html, body {
     grid-column: 2 / 3;
     grid-row: 2 / 4;
     width: 100%;
-    color: white;
     font-size: 1.5em;
     animation: hover2 1.8s ease-in-out infinite;
+}
+#placeholder h2 {
+    color: rgb(0, 109, 111);
 }
 
 #player-data > div > * {
