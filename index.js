@@ -231,23 +231,27 @@ const initDom = (function() {
                 heading.textContent = "EDIT NAME(S)"
                 heading.style.textTransform = "uppercase";
 
-                const inputP1Label = document.createElement("label");
-                inputP1Label.textContent = "Player 1";
-                inputP1Label.htmlFor = "p1";
+                const parentDiv = document.createElement("div");
+                const p1Div = document.createElement("div");
+                const p2Div = document.createElement("div");
 
                 const inputP1 = document.createElement("input");
                 inputP1.type = "text";
                 inputP1.value = players[0].name;
                 inputP1.id = "p1";
 
-                const inputP2Label = document.createElement("label");
-                inputP2Label.textContent = "Player 2";
-                inputP2Label.htmlFor = "p2";
+                const inputP1Label = document.createElement("label");
+                inputP1Label.textContent = "Player 1";
+                inputP1Label.htmlFor = "p1";
 
                 const inputP2 = document.createElement("input");
                 inputP2.type = "text";
                 inputP2.value = players[1].name;
                 inputP2.id = "p2";
+
+                const inputP2Label = document.createElement("label");
+                inputP2Label.textContent = "Player 2";
+                inputP2Label.htmlFor = "p2";
 
                 const submit = document.createElement("button");
                 submit.type = "submit";
@@ -256,10 +260,17 @@ const initDom = (function() {
 
                 form.appendChild(closeDialog);
                 form.appendChild(heading);
-                form.appendChild(inputP1Label);
-                form.appendChild(inputP1);
-                form.appendChild(inputP2Label);
-                form.appendChild(inputP2);
+
+                p1Div.appendChild(inputP1Label);
+                p1Div.appendChild(inputP1);
+
+                p2Div.appendChild(inputP2Label);
+                p2Div.appendChild(inputP2);
+
+                parentDiv.appendChild(p1Div);
+                parentDiv.appendChild(p2Div);
+
+                form.appendChild(parentDiv);
                 form.appendChild(submit);
 
                 dialog.appendChild(form);
