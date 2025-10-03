@@ -23,8 +23,17 @@ html, body {
     row-gap: 28px;
 }
 
-h1 {
+.heading h1 {
+    background: hsla(181, 100%, 22%, 1);
+    background: linear-gradient(90deg, hsla(181, 100%, 22%, 1) 0%, hsla(210, 81%, 22%, 1) 100%);
+    background: -moz-linear-gradient(90deg, hsla(181, 100%, 22%, 1) 0%, hsla(210, 81%, 22%, 1) 100%);
+    background: -webkit-linear-gradient(90deg, hsla(181, 100%, 22%, 1) 0%, hsla(210, 81%, 22%, 1) 100%);
+
     text-align: center;
+    color: transparent;
+    background-clip: text;
+    font-size: 2em;
+    font-weight: 800;
 }
 
 .heading {
@@ -160,6 +169,8 @@ h1 {
     font-weight: bold;
     cursor: pointer;
     -webkit-text-stroke: 1px white;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .empty:hover {
@@ -201,9 +212,9 @@ h1 {
     padding: 12px;
     border: none;
     border-radius: 8px;
-    font-size: 16px;
+    font-size: 24px;
     cursor: pointer;
-    min-width: 75px;
+    min-width: 125px;
     font-weight: 600;
 }
 
