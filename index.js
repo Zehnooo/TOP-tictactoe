@@ -120,7 +120,8 @@ const initDom = (function() {
     line1.textContent = "WELCOME AND THANK YOU FOR YOUR TIME!";
 
     const line2 = document.createElement("h2");
-    line2.textContent = "HOPE TO SEE YOU AGAIN <3";
+    line2.innerHTML = "HOPE TO SEE YOU AGAIN \u2661";
+
 
     placeholder.appendChild(line1);
     placeholder.appendChild(line2);
