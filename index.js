@@ -54,6 +54,9 @@ const gameController = (function() {
     }
 
     const switchActivePlayer = () => {
+        if (!activePlayer || activePlayer === null) {
+            return;
+        }
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
         initDom.showActivePlayer(activePlayer);
     }
@@ -87,8 +90,10 @@ const gameController = (function() {
             const [a, b, c] = winCon;
             if (board[a] && board[a] === board[b] && board[a] === board[c]){
                 winner = true;
+                initDom.hideActivePlayer();
                 initDom.alertGameOver(activePlayer.name);
                 initDom.disableTiles();
+                activePlayer = null;
                 return;
             }
         }
@@ -100,13 +105,16 @@ const gameController = (function() {
         }
         if (tieCheck.length === 9 && !winner){
             initDom.alertGameOver("tie");
+            activePlayer = null;
+            initDom.hideActivePlayer();
         }
     }
 
     const resetGame = () => {
         gameboard.clear();
         initDom.resetTiles();
-        initDom.buildGrid();
+        // initDom.buildGrid();
+        activePlayer = null;
     }
 
     return { switchActivePlayer, placeMarker, status, resetGame, getPlayers, getActivePlayer, updatePlayer, startGame };
@@ -199,6 +207,12 @@ const initDom = (function() {
 
         parent.classList.remove('hide');
         parent.style.display = 'flex';
+    }
+
+    const hideActivePlayer = () => {
+        document.querySelector("#active-player").classList.add("hide");
+        document.querySelector("#active-player").style.display = 'none';
+
     }
 
     const buildSettings = () => {
@@ -339,6 +353,7 @@ const initDom = (function() {
 
             resetBtn.classList.add("hide");
             playBtn.classList.remove("hide");
+            gameController.resetGame();
         });
         div.appendChild(playBtn);
         div.appendChild(resetBtn);
@@ -435,7 +450,7 @@ const initDom = (function() {
     buildGameActions();
     buildSettings();
 
-        return {buildGrid, showActivePlayer, refreshPlayerBar, updateTile, resetTiles, alertGameOver, disableTiles};
+        return {buildGrid, showActivePlayer, hideActivePlayer, refreshPlayerBar, updateTile, resetTiles, alertGameOver, disableTiles};
     })();
 
 
