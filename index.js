@@ -17,8 +17,8 @@ const gameboard = (function () {
 
 const gameController = (function() {
     const players = [
-        { name: "P1", mark: "X" },
-        { name: "P2", mark: "O" }
+        { name: "P1", mark: "X", cpu: false },
+        { name: "P2", mark: "O", cpu: false },
     ]
 
     const getPlayers = () => { return players; }
@@ -60,6 +60,7 @@ const gameController = (function() {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
         initDom.showActivePlayer(activePlayer);
     }
+
     const getActivePlayer = () => {
         return activePlayer;
     }
