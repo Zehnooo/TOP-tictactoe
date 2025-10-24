@@ -114,7 +114,6 @@ const gameController = (function() {
     const resetGame = () => {
         gameboard.clear();
         initDom.resetTiles();
-        // initDom.buildGrid();
         activePlayer = null;
     }
 
